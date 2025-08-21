@@ -1,36 +1,25 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.product.SimpleProduct;
 
 
 public class App {
     public static void main(String[] args) {
 
-        ProductBasket basket1 = new ProductBasket();
+        ProductBasket basket = new ProductBasket();
 
-        Product product1 = new Product("Шоколад", 98);
-        Product product2 = new Product("Молоко", 80);
-        Product product3 = new Product("Сыр", 60);
-        Product product4 = new Product("Чипсы", 150);
-        Product product5 = new Product("Колбаса", 200);
+        Product p1 = new SimpleProduct("Кола", 162);
+        Product p2 = new DiscountedProduct("Стейк сёмги", 300, 10);
+        Product p3 = new FixPriceProduct("Рулетка");
 
-        basket1.addProduct(product1);
-        basket1.addProduct(product2);
-        basket1.addProduct(product3);
-        basket1.addProduct(product4);
-        basket1.addProduct(product5);
+        basket.add(p1);
+        basket.add(p2);
+        basket.add(p3);
 
-        basket1.printProductBasket();
-
-        System.out.println();
-        basket1.checkProduct("Сыр");
-
-        basket1.clearBasket();
-
-
-
-
-
-        }
+        basket.print();
+    }
     }
