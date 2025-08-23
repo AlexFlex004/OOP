@@ -5,20 +5,17 @@ public class DiscountedProduct extends Product {
     private int discount;
 
     public DiscountedProduct(String name, int defaultPrice, int discount) {
-        super(name);
+        super(name, defaultPrice);
         this.defaultPrice = defaultPrice;
         this.discount = discount;
     }
 
     @Override
-    public int getPrice() {
+    public double getPrice() {
         return defaultPrice - (defaultPrice * discount/100);
     }
 
-    @Override
-    public boolean isSpecial() {
-        return true;
-    }
+
 
     @Override
     public String toString() {

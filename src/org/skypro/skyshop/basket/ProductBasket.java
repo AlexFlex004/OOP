@@ -19,13 +19,10 @@ public class ProductBasket {
         for (Product p : products) {
             System.out.println(p.toString());
             total += p.getPrice();
-            if (p.isSpecial()) {
-                specialCount++;
+
             }
         }
 
-        System.out.println("Итого: " + total);
-        System.out.println("Специальных товаров: " + specialCount);
+
     }
 
-}
