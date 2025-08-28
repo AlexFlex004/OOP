@@ -11,15 +11,19 @@ public class DiscountedProduct extends Product {
     }
 
     @Override
-    public double getPrice() {
+    public int getPrice() {
         return defaultPrice - (defaultPrice * discount/100);
     }
-
 
 
     @Override
     public String toString() {
         return getName() + ": " + getPrice() + " (" + discount + "%)";
+    }
+
+    @Override
+    public String[] getTags() {
+        return new String[0];
     }
 
 }

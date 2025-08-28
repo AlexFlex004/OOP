@@ -16,10 +16,9 @@ public class Product implements Searchable {
         return name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
-
 
 
     @Override
@@ -36,6 +35,9 @@ public class Product implements Searchable {
     public String getContentType() {
         return "PRODUCT";
     }
-
+    @Override
+    public String[] getTags() {
+        return new String[0];
+    }
 
 }

@@ -12,6 +12,8 @@ public class ProductBasket {
         products.add(product);
     }
 
+
+
     public void print() {
         int total = 0;
         int specialCount = 0;

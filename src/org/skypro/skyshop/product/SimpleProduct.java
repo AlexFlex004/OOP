@@ -10,7 +10,7 @@ public class SimpleProduct extends Product {
     }
 
     @Override
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -18,5 +18,10 @@ public class SimpleProduct extends Product {
     @Override
     public String toString() {
         return getName() + ": " + getPrice();
+    }
+
+    @Override
+    public String[] getTags() {
+        return new String[0];
     }
 }

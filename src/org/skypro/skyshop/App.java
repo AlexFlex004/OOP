@@ -25,9 +25,12 @@ public class App {
         engine.add(p3);
 
         // Добавляем статьи
-        Article a1 = new Article("Как выбрать спиннинг", "В статье рассказываем о критериях выбора удочки.");
-        Article a2 = new Article("Обзор наживок", "Сравнение популярных наживок для рыбалки.");
-        Article a3 = new Article("Снасти", "Снасти для каждого типа рыбалки.");
+        Article a1 = new Article("Как выбрать спиннинг", "В статье рассказываем о критериях выбора удочки.",
+                "удочка, удочки, спиннинг, спиннинги, спиннинга, выбор удочки");
+        Article a2 = new Article("Обзор наживок", "Сравнение популярных наживок для рыбалки.",
+                "наживка, наживок, наживки, наживка купить, черви, силиконовая, блесна, наживку, блесну");
+        Article a3 = new Article("Снасти", "Снасти для каждого типа рыбалки.",
+                "снасть, снасти, снастей, кормушка, донка, донная, донную");
 
         engine.add(a1);
         engine.add(a2);
@@ -40,12 +43,12 @@ public class App {
                 .forEach(r -> System.out.println(r.getStringRepresentation()));
 
         System.out.println("\n=== Поиск 'наживка' ===");
-        Arrays.stream(engine.search("наживка"))
+        Arrays.stream(engine.search("Комплект наживок"))
                 .filter(r -> r != null)
                 .forEach(r -> System.out.println(r.getStringRepresentation()));
 
         System.out.println("\n=== Поиск 'снасть' ===");
-        Arrays.stream(engine.search("снасть"))
+        Arrays.stream(engine.search("набор снастей"))
                 .filter(r -> r != null)
                 .forEach(r -> System.out.println(r.getStringRepresentation()));
     }
