@@ -6,7 +6,7 @@ public interface Searchable {
     String getSearchTerm();
     String getContentType();
     String getName();
-    Spring[] getTags();
+    String[] getTags();
 
     default String getStringRepresentation() {
         return getName() + " — " + getContentType();
