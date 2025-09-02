@@ -19,12 +19,11 @@ public class SearchEngine {
         }
     }
 
-    // Поиск по строке
+    // Поиск всех подходящих (до 5 результатов)
     public Searchable[] search(String query) {
         Searchable[] results = new Searchable[5];
         int count = 0;
 
-        // Разбиваем строку поиска на слова
         String[] words = query.toLowerCase().split("\\s+");
 
         for (int i = 0; i < size; i++) {
@@ -44,7 +43,6 @@ public class SearchEngine {
                     }
                 }
 
-                // Если слово не найдено ни в тексте, ни в тегах — объект не подходит
                 if (!(inText || inTags)) {
                     matches = false;
                     break;
@@ -53,12 +51,47 @@ public class SearchEngine {
 
             if (matches) {
                 results[count++] = items[i];
-                if (count == 5) break; // ограничиваем максимум 5 результатами
+                if (count == 5) break;
             }
-
-
         }
 
         return results;
     }
+
+    // Новый метод: поиск самого подходящего объекта
+    public Searchable findBestMatch(String query) throws BestResultNotFound {
+        if (query == null || query.isEmpty()) {
+            throw new BestResultNotFound(query);
+        }
+
+        Searchable bestMatch = null;
+        int maxCount = 0;
+
+        for (int i = 0; i < size; i++) {
+            Searchable item = items[i];
+            int count = countOccurrences(item.getSearchTerm().toLowerCase(), query.toLowerCase());
+
+            if (count > maxCount) {
+                maxCount = count;
+                bestMatch = item;
+            }
+        }
+
+        if (bestMatch == null) {
+            throw new BestResultNotFound(query);
+        }
+
+        return bestMatch;
     }
+
+    // Подсчёт вхождений подстроки
+    private int countOccurrences(String text, String sub) {
+        int count = 0;
+        int index = 0;
+        while ((index = text.indexOf(sub, index)) != -1) {
+            count++;
+            index += sub.length();
+        }
+        return count;
+    }
+}
