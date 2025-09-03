@@ -1,36 +1,55 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.Product;
-import org.skypro.skyshop.basket.ProductBasket;
-
+import org.skypro.skyshop.product.SimpleProduct;
 
 public class App {
     public static void main(String[] args) {
+        // Демонстрация проверок
+        try {
+            Product p1 = new SimpleProduct("   ", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
-        ProductBasket basket1 = new ProductBasket();
+        try {
+            Product p2 = new SimpleProduct("Спиннинг", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
-        Product product1 = new Product("Шоколад", 98);
-        Product product2 = new Product("Молоко", 80);
-        Product product3 = new Product("Сыр", 60);
-        Product product4 = new Product("Чипсы", 150);
-        Product product5 = new Product("Колбаса", 200);
+        try {
+            Product p3 = new DiscountedProduct("Фонарь", 600, 150);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
-        basket1.addProduct(product1);
-        basket1.addProduct(product2);
-        basket1.addProduct(product3);
-        basket1.addProduct(product4);
-        basket1.addProduct(product5);
+        SearchEngine engine = new SearchEngine(10);
 
-        basket1.printProductBasket();
 
+        engine.add(new SimpleProduct("Спиннинг рыболовный", 10000));
+        engine.add(new DiscountedProduct("Фонарь", 600, 10));
+        engine.add(new SimpleProduct("Лодка", 50000));
+
+        /// ///
         System.out.println();
-        basket1.checkProduct("Сыр");
+        System.out.println("УДАЧНЫЙ");
+        try {
+            Searchable result = engine.findBestMatch("Спиннинг");
+            System.out.println("Найден лучший результат: " + result);
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка поиска: " + e.getMessage());
+        }
 
-        basket1.clearBasket();
-
-
-
-
-
+        /// ///
+        System.out.println();
+        System.out.println("НЕУДАЧНЫЙ");
+        try {
+            Searchable result = engine.findBestMatch("Телефон");
+            System.out.println("Найден лучший результат: " + result);
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка поиска: " + e.getMessage());
         }
     }
+}
