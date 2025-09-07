@@ -1,34 +1,30 @@
 package org.skypro.skyshop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchEngine {
 
-    private final Searchable[] items;
-    private int size;
+    private final List<Searchable> items;
 
-    public SearchEngine(int capacity) {
-        this.items = new Searchable[capacity];
-        this.size = 0;
+    public SearchEngine() {
+        this.items = new ArrayList<>();
     }
 
     // Добавление нового объекта
     public void add(Searchable item) {
-        if (size < items.length) {
-            items[size++] = item;
-        } else {
-            System.out.println("Массив переполнен, добавить нельзя!");
-        }
+        items.add(item);
     }
 
-    // Поиск всех подходящих (до 5 результатов)
-    public Searchable[] search(String query) {
-        Searchable[] results = new Searchable[5];
-        int count = 0;
+    // Поиск всех подходящих результатов
+    public List<Searchable> search(String query) {
+        List<Searchable> results = new ArrayList<>();
 
         String[] words = query.toLowerCase().split("\\s+");
 
-        for (int i = 0; i < size; i++) {
-            String term = items[i].getSearchTerm().toLowerCase();
-            String[] tags = items[i].getTags();
+        for (Searchable item : items) {
+            String term = item.getSearchTerm().toLowerCase();
+            String[] tags = item.getTags();
 
             boolean matches = true;
 
@@ -50,8 +46,7 @@ public class SearchEngine {
             }
 
             if (matches) {
-                results[count++] = items[i];
-                if (count == 5) break;
+                results.add(item);
             }
         }
 
@@ -67,8 +62,7 @@ public class SearchEngine {
         Searchable bestMatch = null;
         int maxCount = 0;
 
-        for (int i = 0; i < size; i++) {
-            Searchable item = items[i];
+        for (Searchable item : items) {
             int count = countOccurrences(item.getSearchTerm().toLowerCase(), query.toLowerCase());
 
             if (count > maxCount) {
