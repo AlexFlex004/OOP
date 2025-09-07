@@ -1,36 +1,73 @@
 package org.skypro.skyshop;
 
-import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.SimpleProduct;
 
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
 
-        ProductBasket basket1 = new ProductBasket();
+        SearchEngine searchEngine = new SearchEngine();
+        ProductBasket basket = new ProductBasket();
+        // Демонстрация проверок
+        try {
+            Product p1 = new SimpleProduct("   ", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
-        Product product1 = new Product("Шоколад", 98);
-        Product product2 = new Product("Молоко", 80);
-        Product product3 = new Product("Сыр", 60);
-        Product product4 = new Product("Чипсы", 150);
-        Product product5 = new Product("Колбаса", 200);
+        try {
+            Product p2 = new SimpleProduct("Спиннинг", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
-        basket1.addProduct(product1);
-        basket1.addProduct(product2);
-        basket1.addProduct(product3);
-        basket1.addProduct(product4);
-        basket1.addProduct(product5);
+        try {
+            Product p3 = new DiscountedProduct("Фонарь", 600, 150);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
-        basket1.printProductBasket();
+        SearchEngine engine = new SearchEngine();
+
+
+        searchEngine.add(new SimpleProduct("Спиннинг рыболовный", 10000));
+        searchEngine.add(new DiscountedProduct("Фонарь", 600, 10));
+        searchEngine.add(new SimpleProduct("Лодка", 50000));
+
+        // Демонстрация поиска
+        System.out.println();
+        System.out.println("Результаты поиска по слову 'спин':");
+        List<Searchable> searchResults = searchEngine.search("спин");
+        for (Searchable product : searchResults) {
+            System.out.println(" - " + product);
+            basket.addProduct((Product) product); // добавим найденные в корзину
+        }
 
         System.out.println();
-        basket1.checkProduct("Сыр");
+        basket.printBasket();
 
-        basket1.clearBasket();
-
-
-
-
-
+        // Удаление существующего продукта
+        System.out.println();
+        System.out.println("\nУдаляем 'Спиннинг'...");
+        List<Product> removed = basket.removeByName("Спиннинг");
+        if (!removed.isEmpty()) {
+            System.out.println("Удалены:");
+            for (Product product : removed) {
+                System.out.println(" - " + product);
+            }
         }
+        basket.printBasket();
+
+        // Удаление несуществующего продукта
+        System.out.println("\nУдаляем 'Снасть'...");
+        List<Product> removed2 = basket.removeByName("Снасть");
+        if (removed2.isEmpty()) {
+            System.out.println("Список пуст");
+        }
+        basket.printBasket();
     }
+}
