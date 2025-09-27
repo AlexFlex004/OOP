@@ -6,7 +6,7 @@ import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -41,10 +41,10 @@ public class App {
         // Демонстрация поиска
         System.out.println();
         System.out.println("Результаты поиска по слову 'спин':");
-        Map<String, Searchable> searchResults = searchEngine.search("спин");
-        for (Map.Entry<String, Searchable> entry : searchResults.entrySet()) {
-            System.out.println(" - " + entry.getValue());
-            basket.addProduct((Product) entry.getValue()); // добавляем найденные в корзину
+        Set<Searchable> searchResults = searchEngine.search("спин");
+        for (Searchable result : searchResults) {
+            System.out.println(" - " + result);
+            basket.addProduct((Product) result); // добавляем найденные товары в корзину
         }
 
         System.out.println();

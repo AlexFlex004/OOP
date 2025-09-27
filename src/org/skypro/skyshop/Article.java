@@ -2,49 +2,23 @@ package org.skypro.skyshop;
 
 import javax.swing.*;
 
+import java.util.Objects;
+
 import static java.awt.SystemColor.text;
 import static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title;
 
-public final class Article implements Searchable {
-    private String artclName;
-    private String artclText;
+public abstract class Article implements Searchable {
+    private final String title;
     private final String[] tags;
 
-    public Article (String artclName, String artclText, String tags) {
-        this.artclName = artclName;
-        this.artclText = artclText;
-        this.tags = tags != null ? new String[]{tags} : new String[0];
-    }
-
-    /// GETTERS ///
-    public String getArtclName() {
-        return artclName;
+    public Article(String title, String[] tags) {
+        this.title = title;
+        this.tags = tags;
     }
 
     @Override
     public String getSearchTerm() {
-        return artclName + " " + artclName;
-    }
-
-    public String getArtclText() {
-        return artclText;
-    }
-
-
-    @Override
-    public String toString() {
-        return artclName + "\n" + artclText + tags;
-    }
-
-
-    @Override
-    public String getContentType() {
-        return "ARTICLE";
-    }
-
-    @Override
-    public String getName() {
-        return artclName;
+        return title;
     }
 
     @Override
@@ -52,4 +26,17 @@ public final class Article implements Searchable {
         return tags;
     }
 
+    // equals и hashCode только по названию
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Article)) return false;
+        Article article = (Article) o;
+        return Objects.equals(title, article.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
+    }
 }

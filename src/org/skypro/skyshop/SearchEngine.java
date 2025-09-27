@@ -4,20 +4,26 @@ import java.util.*;
 
 public class SearchEngine {
 
-    private final List<Searchable> items;
+    //Set
+    private final Set<Searchable> items;
 
     public SearchEngine() {
-        this.items = new ArrayList<>();
+        this.items = new HashSet<>();
     }
 
-    // Добавление нового объекта
+    //НОВЫЙ
     public void add(Searchable item) {
         items.add(item);
     }
 
-    // Поиск всех подходящих результатов -> возвращаем Map
-    public Map<String, Searchable> search(String query) {
-        Map<String, Searchable> results = new TreeMap<>();
+    //ПОИСК
+    public Set<Searchable> search(String query) {
+        // Компаратор: сначала по длине имени (убывание), затем по алфавиту
+        Comparator<Searchable> comparator = Comparator
+                .comparingInt((Searchable s) -> s.getSearchTerm().length()).reversed()
+                .thenComparing(Searchable::getSearchTerm);
+
+        Set<Searchable> results = new TreeSet<>(comparator);
 
         String[] words = query.toLowerCase().split("\\s+");
 
@@ -45,8 +51,7 @@ public class SearchEngine {
             }
 
             if (matches) {
-                // кладём в TreeMap — автоматически сортируется по имени
-                results.put(item.getSearchTerm(), item);
+                results.add(item);
             }
         }
 

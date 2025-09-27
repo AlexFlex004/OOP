@@ -2,35 +2,16 @@ package org.skypro.skyshop.product;
 
 import org.skypro.skyshop.Searchable;
 
+import java.util.Objects;
+
 public abstract class Product implements Searchable {
-    private String name;
-    private int price;
+    private final String name;
 
-    public Product(String name, int price) {
-
+    public Product(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Название продукта не может быть пустым или состоять только из пробелов.");
+            throw new IllegalArgumentException("Имя продукта не может быть пустым.");
         }
-
         this.name = name;
-        this.price = price;
-
-
-    }
-
-    /// GETTERS ///
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-
-    @Override
-    public String toString() {
-        return name + " — " + price + "₽";
     }
 
     @Override
@@ -38,18 +19,34 @@ public abstract class Product implements Searchable {
         return name;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    // Каждому продукту по умолчанию указываем тип "Продукт"
     @Override
     public String getContentType() {
-        return "PRODUCT";
+        return "Продукт";
     }
-
-    public abstract int getFinalPrice();
 
     @Override
-    public String[] getTags() {
-        return new String[0];
+    public abstract String[] getTags();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Objects.equals(name, product.name);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 
-
+    @Override
+    public String toString() {
+        return "Product{name='" + name + "'}";
+    }
 }
