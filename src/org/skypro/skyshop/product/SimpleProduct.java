@@ -4,7 +4,7 @@ public class SimpleProduct extends Product {
     private final int price;
 
     public SimpleProduct(String name, int price) {
-        super(name);
+        super(name, price);
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Имя продукта не может быть пустым.");
         }
@@ -13,6 +13,7 @@ public class SimpleProduct extends Product {
         }
         this.price = price;
     }
+
 
     @Override
     public int getPrice() {
@@ -24,10 +25,6 @@ public class SimpleProduct extends Product {
         return price;
     }
 
-    @Override
-    public String[] getTags() {
-        return new String[0]; // пока нет тегов
-    }
 
     @Override
     public String toString() {

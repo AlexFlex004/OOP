@@ -6,12 +6,14 @@ import java.util.Objects;
 
 public abstract class Product implements Searchable {
     private final String name;
+    private final int basePrice;
 
-    public Product(String name) {
+    public Product(String name, int basePrice) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Имя продукта не может быть пустым.");
         }
         this.name = name;
+        this.basePrice = basePrice;
     }
 
     @Override
@@ -23,14 +25,17 @@ public abstract class Product implements Searchable {
         return name;
     }
 
+
     // Каждому продукту по умолчанию указываем тип "Продукт"
     @Override
     public String getContentType() {
         return "Продукт";
     }
 
-    @Override
-    public abstract String[] getTags();
+    public abstract int getPrice();
+
+    public abstract int getFinalPrice();
+
 
     @Override
     public boolean equals(Object o) {

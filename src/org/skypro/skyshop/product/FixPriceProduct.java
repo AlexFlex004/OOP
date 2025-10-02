@@ -4,11 +4,12 @@ public class FixPriceProduct extends Product {
     private static final int FIXED_PRICE = 100;
 
     public FixPriceProduct(String name) {
-        super(name);
+        super(name, FIXED_PRICE);
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Имя продукта не может быть пустым.");
         }
     }
+
 
     @Override
     public int getPrice() {
@@ -20,15 +21,6 @@ public class FixPriceProduct extends Product {
         return FIXED_PRICE;
     }
 
-    @Override
-    public String[] getTags() {
-        return new String[0]; // пока без тегов
-    }
-
-    @Override
-    public String getContentType() {
-        return "Продукт (фиксированная цена)";
-    }
 
     @Override
     public String toString() {

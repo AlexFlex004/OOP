@@ -5,7 +5,7 @@ public class DiscountedProduct extends Product {
     private final int discount;
 
     public DiscountedProduct(String name, int defaultPrice, int discount) {
-        super(name);
+        super(name, defaultPrice);
 
         if (defaultPrice <= 0) {
             throw new IllegalArgumentException("Базовая цена продукта должна быть больше 0.");
@@ -28,15 +28,8 @@ public class DiscountedProduct extends Product {
         return defaultPrice - (defaultPrice * discount / 100);
     }
 
-    @Override
-    public String[] getTags() {
-        return new String[0]; // пока тегов нет
-    }
 
-    @Override
-    public String getContentType() {
-        return "Продукт со скидкой";
-    }
+
 
     @Override
     public String toString() {

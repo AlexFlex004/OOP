@@ -17,30 +17,33 @@ public class SearchEngine {
     }
 
     //ПОИСК
-    public Set<Searchable> search(String query) {
-        // Компаратор: сначала по длине имени (убывание), затем по алфавиту
-        Comparator<Searchable> comparator = Comparator
-                .comparingInt((Searchable s) -> s.getSearchTerm().length()).reversed()
-                .thenComparing(Searchable::getSearchTerm);
+    private static final Comparator<Searchable> COMPARATOR = Comparator
+            .comparingInt((Searchable s) -> s.getSearchTerm().length()).reversed()
+            .thenComparing(Searchable::getSearchTerm);
 
-        Set<Searchable> results = new TreeSet<>(comparator);
+    public Set<Searchable> search(String query) {
+        Set<Searchable> results = new TreeSet<>(COMPARATOR);
+        // ... дальше поиск
 
         String[] words = query.toLowerCase().split("\\s+");
 
         for (Searchable item : items) {
             String term = item.getSearchTerm().toLowerCase();
-            String[] tags = item.getTags();
-
             boolean matches = true;
+
 
             for (String word : words) {
                 boolean inText = term.contains(word);
-
                 boolean inTags = false;
+
+
+                if (item instanceof Taggable) {
+                    String[] tags = ((Taggable) item).getTags();
                 for (String tag : tags) {
                     if (tag.toLowerCase().contains(word)) {
                         inTags = true;
                         break;
+                    }
                     }
                 }
 
@@ -92,5 +95,7 @@ public class SearchEngine {
             index += sub.length();
         }
         return count;
+
+
     }
 }

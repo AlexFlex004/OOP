@@ -8,11 +8,8 @@ public interface Searchable {
     String getContentType();
 
 
-    int getPrice();
 
-    int getFinalPrice();
 
-    String[] getTags();
 
 
     default String getStringRepresentation() {

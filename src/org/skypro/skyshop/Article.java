@@ -1,13 +1,8 @@
 package org.skypro.skyshop;
 
-import javax.swing.*;
-
 import java.util.Objects;
 
-import static java.awt.SystemColor.text;
-import static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title;
-
-public abstract class Article implements Searchable {
+public class Article implements Searchable, Taggable {
     private final String title;
     private final String[] tags;
 
@@ -38,5 +33,10 @@ public abstract class Article implements Searchable {
     @Override
     public int hashCode() {
         return Objects.hash(title);
+    }
+
+    @Override
+    public String getContentType() {
+        return "Статья";
     }
 }
