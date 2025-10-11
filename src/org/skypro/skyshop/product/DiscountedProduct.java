@@ -38,4 +38,10 @@ public class DiscountedProduct extends Product {
                 ", скидка = " + discount + "%" +
                 ", цена со скидкой = " + getFinalPrice();
     }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
 }

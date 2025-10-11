@@ -1,6 +1,7 @@
 package org.skypro.skyshop;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
 
@@ -22,43 +23,34 @@ public class SearchEngine {
             .thenComparing(Searchable::getSearchTerm);
 
     public Set<Searchable> search(String query) {
-        Set<Searchable> results = new TreeSet<>(COMPARATOR);
-        // ... дальше поиск
-
         String[] words = query.toLowerCase().split("\\s+");
 
-        for (Searchable item : items) {
-            String term = item.getSearchTerm().toLowerCase();
-            boolean matches = true;
+        return items.stream()
+                .filter(item -> {
+                    String term = item.getSearchTerm().toLowerCase();
 
+                    // Проверяем, содержит ли хотя бы одно слово из запроса
+                    for (String word : words) {
+                        boolean inText = term.contains(word);
+                        boolean inTags = false;
 
-            for (String word : words) {
-                boolean inText = term.contains(word);
-                boolean inTags = false;
+                        if (item instanceof Taggable) {
+                            String[] tags = ((Taggable) item).getTags();
+                            for (String tag : tags) {
+                                if (tag.toLowerCase().contains(word)) {
+                                    inTags = true;
+                                    break;
+                                }
+                            }
+                        }
 
-
-                if (item instanceof Taggable) {
-                    String[] tags = ((Taggable) item).getTags();
-                for (String tag : tags) {
-                    if (tag.toLowerCase().contains(word)) {
-                        inTags = true;
-                        break;
+                        if (!(inText || inTags)) {
+                            return false; // если хоть одно слово не найдено — исключаем
+                        }
                     }
-                    }
-                }
-
-                if (!(inText || inTags)) {
-                    matches = false;
-                    break;
-                }
-            }
-
-            if (matches) {
-                results.add(item);
-            }
-        }
-
-        return results;
+                    return true; // всё ок — включаем в результаты
+                })
+                .collect(Collectors.toCollection(() -> new TreeSet<>(COMPARATOR)));
     }
 
     // Новый метод: поиск самого подходящего объекта

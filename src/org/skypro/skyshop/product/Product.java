@@ -54,4 +54,8 @@ public abstract class Product implements Searchable {
     public String toString() {
         return "Product{name='" + name + "'}";
     }
+
+    public boolean isSpecial() {
+        return false;
+    }
 }
