@@ -26,30 +26,16 @@ public class SearchEngine {
         String[] words = query.toLowerCase().split("\\s+");
 
         return items.stream()
-                .filter(item -> {
+                .filter(item -> Arrays.stream(words).allMatch(word -> {
                     String term = item.getSearchTerm().toLowerCase();
 
-                    // Проверяем, содержит ли хотя бы одно слово из запроса
-                    for (String word : words) {
-                        boolean inText = term.contains(word);
-                        boolean inTags = false;
+                    boolean inText = term.contains(word);
+                    boolean inTags = (item instanceof Taggable)
+                            && Arrays.stream(((Taggable) item).getTags())
+                            .anyMatch(tag -> tag.toLowerCase().contains(word));
 
-                        if (item instanceof Taggable) {
-                            String[] tags = ((Taggable) item).getTags();
-                            for (String tag : tags) {
-                                if (tag.toLowerCase().contains(word)) {
-                                    inTags = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (!(inText || inTags)) {
-                            return false; // если хоть одно слово не найдено — исключаем
-                        }
-                    }
-                    return true; // всё ок — включаем в результаты
-                })
+                    return inText || inTags;
+                }))
                 .collect(Collectors.toCollection(() -> new TreeSet<>(COMPARATOR)));
     }
 
